@@ -12,37 +12,44 @@ public class ShipController : MonoBehaviour
     public GameObject shield;
     public GameObject sightObject;
 
+    private bool canTouch;
+    private bool isMoving;
 
+
+
+    public List<Transform> planets = new List<Transform>(); // Gezegenleri saklamak için bir liste kullanýyoruz
+    [SerializeField]private int currentPlanetIndex = 0;
+
+    [SerializeField] private float movementSpeed = 2f; // Hareket hýzý
+    [SerializeField] private float stoppingDistance = 0.1f;
+
+
+    [SerializeField] private float cameraLerpSpeed = 0.5f; // Kamera geçiþ hýzý
+
+    private Vector3 targetCameraPosition; // Hedef kamera pozisyonu
+    private bool moveCamera;
 
 
     public GameObject planetPrefab;
-    public float planetSpacing = 2f; // The distance between each planet
-    public float firstPlanetX = -8f; // The X position of the first planet
-    public float firstPlanetY = -4f; // The Y position of the first planet
-    public float secondPlanetX = 8f; // The X position of the second planet
-    public float secondPlanetY = 0f; // The Y position of the second planet
-    public float thirdPlanetX = -8f; // The X position of the third planet
-    public float thirdPlanetY = 4f; // The Y position of the third planet
-    public int initialPlanetCount = 3; // The initial number of planets to spawn
-    public int planetsPerSpawn = 3; // The number of planets to spawn when reaching the middle one
+    [SerializeField] private float ySpacing = 3f;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        canTouch = true;
+        moveCamera = false;
+        isMoving= false;
         hasShield = true;
-        isOnPlanet = false;
+        isOnPlanet = true;
         timeOnPlanet = 0f;
 
+        transform.rotation = Quaternion.Euler(0f, 0f, -45f);
+
+        targetCameraPosition = Camera.main.transform.position;
 
 
-        SpawnPlanet(new Vector3(firstPlanetX, firstPlanetY, 0f));
-
-        // Spawn the second planet
-        SpawnPlanet(new Vector3(secondPlanetX, secondPlanetY, 0f));
-
-        // Spawn the third planet
-        SpawnPlanet(new Vector3(thirdPlanetX, thirdPlanetY, 0f));
     }
 
     // Update is called once per frame
@@ -71,6 +78,53 @@ public class ShipController : MonoBehaviour
         }
 
 
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                if (canTouch) {
+                MoveToNextPlanet();
+                }
+            }
+        }
+        if (isMoving)
+        {
+            canTouch = false;
+            // Hedef gezegenin pozisyonuna doðru hareket etmek için bir vektör hesaplayýn
+            Vector3 targetPosition = planets[currentPlanetIndex].position;
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+            Vector3 movement = moveDirection * movementSpeed * Time.deltaTime;
+
+            // Gemiyi yeni konuma hareket ettirin
+            transform.position += movement;
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+            if (distanceToTarget <= stoppingDistance)
+            {
+                canTouch = true;
+                //moveCamera = false;
+                transform.position = targetPosition;
+                if (currentPlanetIndex % 2 == 0)
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, -45f);
+
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, 45f);
+
+                }
+            }
+        }
+        if (moveCamera)
+        {
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetCameraPosition, cameraLerpSpeed * Time.deltaTime);
+        }
+        
+
+
 
     }
     
@@ -80,6 +134,7 @@ public class ShipController : MonoBehaviour
         if (collision.gameObject.CompareTag("Planet"))
         {
             isOnPlanet= true;
+            
         }
         else if(collision.gameObject.CompareTag("Rock"))
          {
@@ -102,15 +157,6 @@ public class ShipController : MonoBehaviour
             HideSight();
             timeOnPlanet = 0f;
 
-            if (collision.gameObject.transform.position.x == secondPlanetX && collision.gameObject.transform.position.y == secondPlanetY)
-            {
-                for (int i = 0; i < planetsPerSpawn; i++)
-                {
-                    float offsetX = (initialPlanetCount + i) * planetSpacing;
-                    SpawnPlanet(new Vector3(secondPlanetX + offsetX, secondPlanetY, 0f));
-                }
-            }
-
         }
 
     }
@@ -128,11 +174,46 @@ public class ShipController : MonoBehaviour
     {
         Debug.Log("gameover");
     }
-    private void SpawnPlanet(Vector3 position)
+    private void MoveToNextPlanet()
     {
-        GameObject planet = Instantiate(planetPrefab, position, Quaternion.identity);
-        // Set up any additional properties or behaviors of the planet
-        // ...
+        // Bir sonraki gezegene hareket etmek için indeksi bir artýrýn
+        currentPlanetIndex++;
+       
+        // Gezegenler listesinin sonuna ulaþtýðýmýzda, yeni bir gezegen spawn edebilirsiniz
+        if (currentPlanetIndex >= planets.Count-2)
+        {
+            SpawnNewPlanet();
+            if(currentPlanetIndex > 2) 
+            { 
+                planets[currentPlanetIndex-2].gameObject.SetActive(false);
+                planets[currentPlanetIndex -3].gameObject.SetActive(false);
+
+            }
+        }
+
+        isMoving = true;
+       
+        targetCameraPosition.y += 3f;
+        moveCamera = true;
+        
+            
+       
+
+    }
+
+
+    private void SpawnNewPlanet()
+    {
+        Debug.Log("spawn");
+        Vector3 spawnRightPosition = planets[currentPlanetIndex].transform.position;
+        Vector3 spawnLeftPosition = planets[currentPlanetIndex+1].transform.position;
+        spawnLeftPosition.y += ySpacing*2;
+        spawnRightPosition.y += ySpacing*2;
+        GameObject newLeftPlanet = Instantiate(planetPrefab, spawnLeftPosition, Quaternion.identity);
+        GameObject newRightPlanet = Instantiate(planetPrefab, spawnRightPosition, Quaternion.identity);
+        planets.Add(newRightPlanet.transform);
+        planets.Add(newLeftPlanet.transform);
+        
     }
 
 }
