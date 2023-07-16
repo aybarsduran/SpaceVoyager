@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ShipController : MonoBehaviour
 {
@@ -33,11 +34,19 @@ public class ShipController : MonoBehaviour
     public GameObject planetPrefab;
     [SerializeField] private float ySpacing = 3f;
 
+    [SerializeField]
+    private Sprite[] planetSprites;
 
+    [SerializeField]
+    private Sprite[] rockSprites;
+
+    private int score;
+    public TextMeshProUGUI scoreText;
 
     // Start is called before the first frame update
     void Start()
     {
+        score = 0;
         canTouch = true;
         moveCamera = false;
         isMoving= false;
@@ -55,6 +64,7 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = score.ToString();
         if (hasShield) 
         {
             shield.SetActive(true);
@@ -134,6 +144,8 @@ public class ShipController : MonoBehaviour
         if (collision.gameObject.CompareTag("Planet"))
         {
             isOnPlanet= true;
+            score++;
+            Debug.Log(score);
             
         }
         else if(collision.gameObject.CompareTag("Rock"))
@@ -205,12 +217,29 @@ public class ShipController : MonoBehaviour
     private void SpawnNewPlanet()
     {
         Debug.Log("spawn");
+
+        Sprite randomPlanetSprite = planetSprites[Random.Range(0, planetSprites.Length)];
+        Sprite randomRockSprite = rockSprites[Random.Range(0,rockSprites.Length)];
+
+
+        Sprite randomSecPlanetSprite = planetSprites[Random.Range(0, planetSprites.Length)];
+        Sprite randomSecRockSprite = rockSprites[Random.Range(0, rockSprites.Length)];
+
+
         Vector3 spawnRightPosition = planets[currentPlanetIndex].transform.position;
         Vector3 spawnLeftPosition = planets[currentPlanetIndex+1].transform.position;
+
         spawnLeftPosition.y += ySpacing*2;
         spawnRightPosition.y += ySpacing*2;
+
+        planetPrefab.GetComponent<SpriteRenderer>().sprite = randomPlanetSprite;
+        planetPrefab.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = randomRockSprite;
         GameObject newLeftPlanet = Instantiate(planetPrefab, spawnLeftPosition, Quaternion.identity);
+
+        planetPrefab.GetComponent<SpriteRenderer>().sprite = randomSecPlanetSprite;
+        planetPrefab.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = randomSecRockSprite;
         GameObject newRightPlanet = Instantiate(planetPrefab, spawnRightPosition, Quaternion.identity);
+
         planets.Add(newRightPlanet.transform);
         planets.Add(newLeftPlanet.transform);
         
