@@ -43,9 +43,13 @@ public class ShipController : MonoBehaviour
     private int score;
     public TextMeshProUGUI scoreText;
 
+    public GameObject main;
+    public GameObject gameOverPanel;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameOverPanel.SetActive(false);
         score = 0;
         canTouch = true;
         moveCamera = false;
@@ -184,7 +188,14 @@ public class ShipController : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("gameover");
+        
+        scoreText.transform.parent.gameObject.SetActive(false);
+        foreach(Transform planet in planets)
+        {
+            planet.gameObject.SetActive(false);
+        }
+        main.SetActive(false);
+        gameOverPanel.SetActive(true);
     }
     private void MoveToNextPlanet()
     {
