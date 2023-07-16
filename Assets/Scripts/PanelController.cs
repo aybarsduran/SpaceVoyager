@@ -10,6 +10,7 @@ public class PanelController : MonoBehaviour
     public GameObject shipsPanel;
     private void Start()
     {
+        menuPanel.SetActive(true);
         maxScoreText.text = "record " + GameManager.Instance.GetMaxScore().ToString();
     }
     public void StartButtonClicked()
