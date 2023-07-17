@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public bool isGameOver;
+    public bool isPaused;
     private static GameManager instance;
 
     public static GameManager Instance
@@ -33,10 +34,14 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        isPaused = false;
+    }
 
     public int GetMaxScore()
     {
-        int maxScore = PlayerPrefs.GetInt("MaxScore");
+        int maxScore = PlayerPrefs.GetInt("MaxScore",0);
         return maxScore;
     }
 

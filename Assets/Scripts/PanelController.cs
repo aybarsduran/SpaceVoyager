@@ -15,6 +15,7 @@ public class PanelController : MonoBehaviour
     }
     public void StartButtonClicked()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("GameScene");
     }
     public void ShipsButtonClicked()

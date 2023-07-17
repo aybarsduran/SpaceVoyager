@@ -45,6 +45,8 @@ public class ShipController : MonoBehaviour
 
     public GameObject main;
     public GameObject gameOverPanel;
+    public TextMeshProUGUI gameOverPanelScore;
+    public TextMeshProUGUI gameOverPanelMaxScore;
 
     // Start is called before the first frame update
     void Start()
@@ -188,7 +190,12 @@ public class ShipController : MonoBehaviour
 
     public void GameOver()
     {
-        
+        if (score > PlayerPrefs.GetInt("MaxScore"))
+        {
+            // Update the maximum score
+            PlayerPrefs.SetInt("MaxScore", score);
+        }
+
         scoreText.transform.parent.gameObject.SetActive(false);
         foreach(Transform planet in planets)
         {
@@ -196,7 +203,10 @@ public class ShipController : MonoBehaviour
         }
         main.SetActive(false);
         gameOverPanel.SetActive(true);
+        gameOverPanelScore.text = "score " + score.ToString();
+        gameOverPanelMaxScore.text = "record " +  GameManager.Instance.GetMaxScore().ToString();
     }
+    
     private void MoveToNextPlanet()
     {
         // Bir sonraki gezegene hareket etmek için indeksi bir artýrýn
