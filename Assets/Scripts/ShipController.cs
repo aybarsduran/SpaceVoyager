@@ -52,6 +52,7 @@ public class ShipController : MonoBehaviour
     public SpriteRenderer shipSprite;
 
     public GameObject pauseButton;
+    public GameObject explosion;
 
     private void Awake()
     {
@@ -227,8 +228,15 @@ public class ShipController : MonoBehaviour
             PlayerPrefs.SetInt("MaxScore", score);
         }
 
+        StartCoroutine(ShowExplosionAndActivatePanel());
+    }
+
+    private IEnumerator ShowExplosionAndActivatePanel()
+    {
+        explosion.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
         scoreText.transform.parent.gameObject.SetActive(false);
-        foreach(Transform planet in planets)
+        foreach (Transform planet in planets)
         {
             planet.gameObject.SetActive(false);
         }
@@ -238,8 +246,9 @@ public class ShipController : MonoBehaviour
         gameOverPanelScore.text = "score " + score.ToString();
         gameOverPanelMaxScore.text = "record " +  GameManager.Instance.GetMaxScore().ToString();
     }
-    
-    private void MoveToNextPlanet()
+
+
+        private void MoveToNextPlanet()
     {
         // Bir sonraki gezegene hareket etmek için indeksi bir artýrýn
         currentPlanetIndex++;
