@@ -6,7 +6,7 @@ using TMPro;
 public class ShipController : MonoBehaviour
 {
     private bool hasShield;
-    private bool isOnPlanet;
+    [SerializeField]private bool isOnPlanet;
     [SerializeField]private float timeOnPlanet;
     public float sightDuration = 5f;
     public float destructionDuration = 10f;
@@ -48,6 +48,15 @@ public class ShipController : MonoBehaviour
     public TextMeshProUGUI gameOverPanelScore;
     public TextMeshProUGUI gameOverPanelMaxScore;
 
+    public Sprite[] selectedShipSprites;
+    public SpriteRenderer shipSprite;
+
+    public GameObject pauseButton;
+
+    private void Awake()
+    {
+        shipSprite.sprite = selectedShipSprites[PlayerPrefs.GetInt("selectedShip",0)];
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +98,17 @@ public class ShipController : MonoBehaviour
 
             if (timeOnPlanet >= destructionDuration)
             {
-                GameOver();
+                if (hasShield)
+                {
+                    hasShield = false;
+                    HideSight();
+                    timeOnPlanet = 0;
+                }
+                else
+                {
+                    GameOver();
+                }
+                
             }
         }
 
@@ -154,6 +173,11 @@ public class ShipController : MonoBehaviour
             Debug.Log(score);
             
         }
+        else if (collision.gameObject.CompareTag("starterPlanet"))
+        {
+            isOnPlanet = true;
+
+        }
         else if(collision.gameObject.CompareTag("Rock"))
          {
              if (hasShield)
@@ -163,13 +187,20 @@ public class ShipController : MonoBehaviour
              else
              {
                 GameOver();
-            }
+             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Planet"))
+        {
+            isOnPlanet = false;
+            HideSight();
+            timeOnPlanet = 0f;
+
+        }
+        if (collision.gameObject.CompareTag("starterPlanet"))
         {
             isOnPlanet = false;
             HideSight();
@@ -202,6 +233,7 @@ public class ShipController : MonoBehaviour
             planet.gameObject.SetActive(false);
         }
         main.SetActive(false);
+        pauseButton.SetActive(false);
         gameOverPanel.SetActive(true);
         gameOverPanelScore.text = "score " + score.ToString();
         gameOverPanelMaxScore.text = "record " +  GameManager.Instance.GetMaxScore().ToString();

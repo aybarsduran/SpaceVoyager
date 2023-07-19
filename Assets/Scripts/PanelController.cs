@@ -8,6 +8,7 @@ public class PanelController : MonoBehaviour
     public GameObject menuPanel;
     public GameObject optionsPanel;
     public GameObject shipsPanel;
+    public ShipSelection shipSelection;
     private void Start()
     {
         menuPanel.SetActive(true);
@@ -25,6 +26,7 @@ public class PanelController : MonoBehaviour
     }
     public void ShipsBackButtonClicked()
     {
+        shipSelection.Save();
         shipsPanel.SetActive(false);
         menuPanel.SetActive(true);
     }

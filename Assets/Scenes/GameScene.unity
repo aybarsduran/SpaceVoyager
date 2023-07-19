@@ -745,7 +745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -65, y: 276.99997}
+  m_AnchoredPosition: {x: -65, y: 277}
   m_SizeDelta: {x: 471, y: 1019}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &418847005
@@ -1508,7 +1508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 217.00021}
+  m_AnchoredPosition: {x: 0, y: 217.00024}
   m_SizeDelta: {x: 471, y: 1019}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &756667330
@@ -2207,7 +2207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 216.99997}
+  m_AnchoredPosition: {x: 0, y: 217}
   m_SizeDelta: {x: 471, y: 1019}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &1284712128
@@ -3128,7 +3128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -65, y: 276.99997}
+  m_AnchoredPosition: {x: -65, y: 277}
   m_SizeDelta: {x: 471, y: 1019}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1999089244
@@ -3586,7 +3586,7 @@ GameObject:
   - component: {fileID: 212112512696337147}
   m_Layer: 0
   m_Name: planet1
-  m_TagString: Untagged
+  m_TagString: starterPlanet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3899,6 +3899,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1517639553}
     - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: shipSprite
+      value: 
+      objectReference: {fileID: 5153279013853311886}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1739678176}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
       propertyPath: firstPlanetX
       value: -1
       objectReference: {fileID: 0}
@@ -4014,6 +4022,30 @@ PrefabInstance:
       propertyPath: planetSprites.Array.data[7]
       value: 
       objectReference: {fileID: 21300000, guid: 7485ffd24ce33634484651732a5e5622, type: 3}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d83a4c5e49f4454bb3a66aa801bb5a4, type: 3}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3da2aad565a725140a0f00df3d19380d, type: 3}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 442008938fe5ecc4085baaf0e5e6ca98, type: 3}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d4a65a5cb2d13d4da1e6c45d9cb18bd, type: 3}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: selectedShipSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: ab40f7c3c8bfb834b89eb3ffa6bf2890, type: 3}
     - target: {fileID: 6421064353059424851, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
       propertyPath: m_Name
       value: ship5
@@ -4083,6 +4115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6282b64311dc54a4e815c0c4cffb2bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &5153279013853311886 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 618817889388880585, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+  m_PrefabInstance: {fileID: 5153279013853311883}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5503832344076681367
 Transform:
   m_ObjectHideFlags: 0
