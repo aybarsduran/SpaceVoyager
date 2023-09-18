@@ -3869,7 +3869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6eeb32010a28c4881b76684f7189a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 45
+  rotationSpeed: 110
 --- !u!114 &4027528097928000150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3882,7 +3882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6eeb32010a28c4881b76684f7189a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 45
+  rotationSpeed: 110
 --- !u!1001 &5153279013853311883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4111,6 +4111,10 @@ PrefabInstance:
       propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 866751218}
+    - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
+      propertyPath: movementSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6196197544817922129, guid: a3c82eaf3e672fd4088de2eb8d20eb32, type: 3}
       propertyPath: gameOverPanelScore
       value: 
